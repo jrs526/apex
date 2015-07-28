@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+export DJANGO_DEBUG=True
+export DJANGO_SECRET=testing
+
+# Use 2 processes & 2 threads to give a finite chance of seeing race conditions.
+export WEB_CONCURRENCY=2
+export WEB_THREADS_PER_PROCESS=2
+
+echo "Start pip install" $(date)
+pip install --quiet --upgrade -r requirements.txt
+echo "Start processes" $(date)
+heroku local

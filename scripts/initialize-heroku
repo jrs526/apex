@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+echo =_= Creating the app =_=
+heroku apps:create
+
+echo
+
+echo =_= Setting basic settings =_=
+heroku config:set $(cat scripts/env-initial.sh)
+heroku config:set DJANGO_SECRET=$(scripts/generate-secret)
+
+echo
+
+echo =_= Installing addons =_=
+heroku addons:create heroku-redis
+heroku addons:create rabbitmq-bigwig
+
+ENVFILE=$(mktemp /tmp/heroku-env.XXXXXXXXXX)
+heroku config -s > $ENVFILE
+source $ENVFILE
+heroku config:set CELERY_BROKER_URL=$RABBITMQ_BIGWIG_URL
+heroku config:set CELERY_RESULT_BACKEND=$REDIS_URL
+
+echo
+
+echo =_= Deploying code =_=
+git push --set-upstream heroku master
+
+echo
+
+echo =_= Scaling up workers =_=
+herou scale worker=1

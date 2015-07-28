@@ -1,0 +1,7 @@
+*.py[cod]
+*.so
+/.coverage
+/.env
+/.tox
+/db.sqlite
+/static

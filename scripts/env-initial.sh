@@ -1,0 +1,3 @@
+DJANGO_DEBUG=False
+VIRTUAL_ENV=/app/.heroku/python
+WEB_CONCURRENCY=1
