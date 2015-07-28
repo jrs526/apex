@@ -47,3 +47,10 @@ To setup a Heroku deployment for experimental purposes, simply:
 ```bash
 ./scripts/initialize-heroku
 ```
+
+
+## Using the Service
+This service has one endpoint at `/sums`.  You can post a list of numbers
+there, and it will create a background job to add them.  You can check on the
+status of the job, and retrieve the result of the addition from the URL given
+in the location header of the POST response.
