@@ -26,7 +26,7 @@ heroku config:set CELERY_RESULT_BACKEND=$REDIS_URL
 echo
 
 echo =_= Deploying code =_=
-git push --set-upstream heroku master
+git push heroku master
 
 echo
 
