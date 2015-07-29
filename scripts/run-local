@@ -2,6 +2,10 @@
 
 set -o errexit
 
+export VENV=venv-apex
+
+virtualenv $VENV
+
 export DJANGO_DEBUG=True
 export DJANGO_SECRET=testing
 
@@ -10,8 +14,8 @@ export WEB_CONCURRENCY=2
 export WEB_THREADS_PER_PROCESS=2
 
 echo "Start pip install" $(date)
-pip install --quiet --upgrade -r requirements.txt
+$VENV/bin/pip install --quiet --upgrade -r requirements.txt
 echo "Start collectstatic" $(date)
-python manage.py collectstatic --noinput --verbosity 0 --link
+$VENV/bin/python manage.py collectstatic --noinput --verbosity 0 --link
 echo "Start processes" $(date)
-heroku local
+$VENV/bin/python manage.py runserver
